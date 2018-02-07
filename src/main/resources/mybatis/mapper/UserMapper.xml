@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.keon.sample.persistence.mapper.UserMapper">
+	
+	<resultMap id="UserMap" type="com.keon.sample.persistence.model.User">
+	    <id column="user_seq" jdbcType="INTEGER" property="userSeq" />
+	    <id column="id" jdbcType="VARCHAR" property="id" />
+	    <id column="pw" jdbcType="VARCHAR" property="pw" />
+	    <id column="name" jdbcType="VARCHAR" property="name" />
+	    <id column="mod_date" jdbcType="VARCHAR" property="modDate" />
+	    <id column="reg_date" jdbcType="VARCHAR" property="regDate" />
+	    <id column="del_yn" jdbcType="VARCHAR" property="delYn" />
+  	</resultMap>
+	
+	
+	<insert id="insertUser" parameterType="com.keon.sample.persistence.model.User">
+		insert into user (id, pw, name) 
+		values (#{id},#{pw},#{name})
+	</insert>
+
+	<update id="updateUser" parameterType="com.keon.sample.persistence.model.User">
+		update user set pw=#{pw}, name=#{name} where user_seq = #{userSeq}
+	</update>
+
+	<delete id="deleteUser" parameterType="int">
+		update user set del_yn = 'T' where user_seq = #{userSeq}
+	</delete>
+
+	<select id="selectUser" parameterType="com.keon.sample.persistence.model.User" resultMap="UserMap">
+		select * from user where id = #{id} and del_yn = 'F'
+	</select>
+	
+</mapper>
