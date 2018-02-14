@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keon.sample.persistence.mapper.UserMapper">
+
+  <resultMap id="UserMap" type="com.keon.sample.persistence.model.User">
+    <id column="user_seq" jdbcType="INTEGER" property="userSeq" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pw" jdbcType="VARCHAR" property="pw" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+    <result column="del_yn" jdbcType="VARCHAR" property="delYn" />
+  </resultMap>
+  
+  <insert id="insertUser" parameterType="com.keon.sample.persistence.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    	<if test="userSeq != null">
+    		user_seq,
+    	</if>
+    	<if test="id != null">
+    		id,
+    	</if>
+    	<if test="pw != null">
+    		pw,
+    	</if>
+    	<if test="name != null">
+    		name,
+    	</if>
+    	<if test="regDate != null">
+    		reg_date,
+    	</if>
+    	<if test="delYn != null">
+    		del_yn
+    	</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    	<if test="userSeq != null">
+        	#{userSeq,jdbcType=INTEGER},
+      	</if>
+      	<if test="id != null">
+      		#{id,jdbcType=VARCHAR},
+      	</if>
+      	<if test="pw != null">
+	        #{pw,jdbcType=VARCHAR},
+    	</if>
+      	<if test="name != null">
+        	#{name,jdbcType=VARCHAR},
+      	</if>
+      	<if test="regDate != null">
+        	#{regDate,jdbcType=TIMESTAMP},
+      	</if>
+      	<if test="delYn != null">
+	        #{delYn,jdbcType=VARCHAR}
+      	</if>
+    </trim>
+  </insert>
+
+  <update id="updateUser" parameterType="com.keon.sample.persistence.model.User">
+    update user
+    <set>
+    	<if test="id != null">
+    		id = #{id,jdbcType=VARCHAR},
+    	</if>
+    	<if test="pw != null">
+    		pw = #{pw,jdbcType=VARCHAR},
+    	</if>
+    	<if test="name != null">
+    		name = #{name,jdbcType=VARCHAR},
+    	</if>
+    	<if test="regDate != null">
+    		reg_date = #{regDate,jdbcType=TIMESTAMP},
+    	</if>
+    	<if test="delYn != null">
+    		del_yn = #{delYn,jdbcType=VARCHAR}
+    	</if>
+    </set> 
+    where 
+    	user_seq = #{userSeq,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteUser" parameterType="java.lang.Integer">
+    delete from 
+    	user
+    where 
+    	user_seq = #{userSeq,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="selectUser" parameterType="java.lang.Integer" resultMap="UserMap">
+    select 
+    	user_seq, 
+    	id, 
+    	pw, 
+    	name, 
+    	reg_date, 
+    	del_yn
+    from 
+    	user
+    where 
+    	user_seq = #{userSeq,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectUserList" resultMap="UserMap">
+    select 
+    	user_seq, 
+    	id, 
+    	pw, 
+    	name, 
+    	reg_date, 
+    	del_yn
+    from 
+    	user
+    where
+    	del_yn = 'F'
+  </select>
+  
+</mapper>

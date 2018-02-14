@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keon.sample.persistence.mapper.BoardMapper">
+
+  <resultMap id="BoardMap" type="com.keon.sample.persistence.model.Board">
+    <id column="board_seq" jdbcType="INTEGER" property="boardSeq" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="cnt" jdbcType="INTEGER" property="cnt" />
+    <result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+    <result column="mod_date" jdbcType="TIMESTAMP" property="modDate" />
+    <result column="reg_seq" jdbcType="INTEGER" property="regSeq" />
+    <result column="del_yn" jdbcType="VARCHAR" property="delYn" />
+  </resultMap>
+
+
+  <insert id="insertBoard" parameterType="com.keon.sample.persistence.model.Board">
+    insert into board 
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="boardSeq != null">
+        board_seq,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="name != null">
+      	name,
+      </if>
+      <if test="cnt != null">
+      	cnt,
+      </if>
+      <if test="regSeq != null">
+      	reg_seq
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="boardSeq != null">
+        #{boardSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cnt != null">
+        #{cnt,jdbcType=INTEGER},
+      </if>
+      <if test="regSeq != null">
+        #{regSeq,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateBoard" parameterType="com.keon.sample.persistence.model.Board">
+    update board
+    <set>
+    	<if test="type != null">
+    		type = #{type,jdbcType=VARCHAR},
+    	</if>
+    	<if test="title != null">
+    		title = #{title,jdbcType=VARCHAR},
+    	</if>
+    	<if test="content != null">
+    		content = #{content,jdbcType=VARCHAR},
+    	</if>
+    	<if test="name != null">
+    		name = #{name,jdbcType=VARCHAR},
+    	</if>
+    	<if test="cnt != null">
+    		cnt = #{cnt,jdbcType=INTEGER},
+    	</if>
+    	<if test="regDate != null">
+    		reg_date = #{regDate,jdbcType=TIMESTAMP},
+    	</if>
+    	<if test="modDate != null">
+    		mod_date = #{modDate,jdbcType=TIMESTAMP},
+    	</if>
+    	<if test="regSeq != null">
+    		reg_seq = #{regSeq,jdbcType=INTEGER},
+    	</if>
+    	<if test="delYn != null">
+    		del_yn = #{delYn,jdbcType=VARCHAR}
+    	</if>
+    </set>
+    where 
+    	board_seq = #{boardSeq,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBoard" parameterType="java.lang.Integer">
+    delete from 
+    	board
+    where 
+    	board_seq = #{boardSeq,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="selectBoard" parameterType="java.lang.Integer" resultMap="BoardMap">
+    select 
+    	board_seq, 
+    	type, 
+    	title, 
+    	content, 
+    	name, 
+    	cnt, 
+    	reg_date, 
+    	mod_date, 
+    	reg_seq, 
+    	del_yn
+    from 
+    	board
+    where 
+    	board_seq = #{boardSeq,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectBoardList" resultMap="BoardMap">
+    select 
+    	board_seq, 
+    	type, 
+    	title, 
+    	content, 
+    	name, 
+    	cnt, 
+    	reg_date, 
+    	mod_date, 
+    	reg_seq, 
+    	del_yn
+    from 
+    	board
+    where
+    	del_yn = 'F'
+  </select>
+ 
+</mapper>

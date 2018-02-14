@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keon.sample.persistence.mapper.BoardReplyMapper">
+ 
+  <resultMap id="BaseResultMap" type="com.keon.sample.persistence.model.BoardReply">
+    <id column="board_reply_seq" jdbcType="INTEGER" property="boardReplySeq" />
+    <result column="board_type" jdbcType="CHAR" property="boardType" />
+    <result column="board_seq" jdbcType="INTEGER" property="boardSeq" />
+    <result column="reply_content" jdbcType="VARCHAR" property="replyContent" />
+    <result column="reg_seq" jdbcType="VARCHAR" property="regSeq" />
+    <result column="reg_date" jdbcType="TIMESTAMP" property="regDate" />
+    <result column="group_seq" jdbcType="INTEGER" property="groupSeq" />
+    <result column="reparent" jdbcType="INTEGER" property="reparent" />
+    <result column="reorder" jdbcType="INTEGER" property="reorder" />
+    <result column="redepth" jdbcType="INTEGER" property="redepth" />
+    <result column="del_yn" jdbcType="VARCHAR" property="delYn" />
+  </resultMap>
+
+
+  <insert id="insertBoardReply" parameterType="com.keon.sample.persistence.model.BoardReply">
+    insert into 
+    	board_reply (board_reply_seq, board_type, board_seq, 
+      				reply_content, reg_seq, reg_date, 
+      				group_seq, reparent, reorder, redepth, del_yn)
+    	values (#{boardReplySeq,jdbcType=INTEGER}, #{boardType,jdbcType=CHAR}, #{boardSeq,jdbcType=INTEGER}, 
+      			#{replyContent,jdbcType=VARCHAR}, #{regSeq,jdbcType=VARCHAR}, #{regDate,jdbcType=TIMESTAMP}, 
+      			#{groupSeq,jdbcType=INTEGER}, #{reparent,jdbcType=INTEGER}, #{reorder,jdbcType=INTEGER}, 
+      			#{redepth,jdbcType=INTEGER}, #{delYn,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateBoardReply" parameterType="com.keon.sample.persistence.model.BoardReply">
+    update 
+    	board_reply
+    set 
+    	board_type = #{boardType,jdbcType=CHAR},
+    	board_seq = #{boardSeq,jdbcType=INTEGER},
+      	reply_content = #{replyContent,jdbcType=VARCHAR},
+      	reg_seq = #{regSeq,jdbcType=VARCHAR},
+      	reg_date = #{regDate,jdbcType=TIMESTAMP},
+      	group_seq = #{groupSeq,jdbcType=INTEGER},
+      	reparent = #{reparent,jdbcType=INTEGER},
+      	reorder = #{reorder,jdbcType=INTEGER},
+      	redepth = #{redepth,jdbcType=INTEGER},
+      	del_yn = #{delYn,jdbcType=VARCHAR}
+    where 
+    	board_reply_seq = #{boardReplySeq,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBoardReply" parameterType="java.lang.Integer">
+    delete from 
+    	board_reply
+    where 
+    	board_reply_seq = #{boardReplySeq,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="selectBoardReply" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    	board_reply_seq, board_type, board_seq, reply_content, reg_seq, reg_date, group_seq, 
+    	reparent, reorder, redepth, del_yn
+    from 
+    	board_reply
+    where 
+    	board_reply_seq = #{boardReplySeq,jdbcType=INTEGER}
+  </select>
+  
+</mapper>
